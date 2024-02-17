@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -8,31 +8,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { signIn } from "@/server/actions/sign-in";
-import { SignInFormSchema } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import z from "zod";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { login } from '@/server/actions/sign-in';
+import { SignInFormSchema } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import z from 'zod';
 
 const SignInForm = () => {
   const [pending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
-    mode: "onBlur",
+    mode: 'onBlur',
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
   const onSubmit = (values: z.infer<typeof SignInFormSchema>) => {
     startTransition(() => {
-      signIn(values)
+      login(values)
         .then((data) => {
           if (data.status === 200) {
             toast.success(data.message);
@@ -83,7 +83,7 @@ const SignInForm = () => {
               <div className="flex justify-end">
                 <Link
                   href="/forgot-password"
-                  className="text-xs text-right text-muted-foreground"
+                  className="text-right text-xs text-muted-foreground"
                 >
                   Forgot Password?
                 </Link>
@@ -97,7 +97,7 @@ const SignInForm = () => {
           {pending && (
             <svg
               aria-hidden="true"
-              className="w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-black mr-2"
+              className="mr-2 h-4 w-4 animate-spin fill-black text-gray-200 dark:text-gray-600"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -111,10 +111,10 @@ const SignInForm = () => {
                 fill="currentFill"
               />
             </svg>
-          )}{" "}
+          )}{' '}
           Sign In
         </Button>
-        <div className="flex items-center justify-center text-sm gap-1">
+        <div className="flex items-center justify-center gap-1 text-sm">
           <span className="text-xs text-muted-foreground">
             Don&apos;t have an account?
           </span>

@@ -1,34 +1,46 @@
-"use server";
+'use server';
 
-import { db } from "@/lib/db";
-import { SignInFormSchema } from "@/types";
-import bcrypt from "bcryptjs";
-import z from "zod";
-import { getUserByEmail } from "./user";
+import { signIn } from '@/app/api/auth/auth';
+import { DEFAULT_LOGIN_REDIRECT } from '@/config/routes';
+import { SignInFormSchema } from '@/types';
+import { AuthError } from 'next-auth';
+import z from 'zod';
 
-export const signIn = async (values: z.infer<typeof SignInFormSchema>) => {
+export const login = async (values: z.infer<typeof SignInFormSchema>) => {
   const validateFields = SignInFormSchema.safeParse(values);
 
   if (!validateFields.success) {
     return {
       status: 400,
-      message: "Invalid fields",
+      message: 'Invalid fields',
     };
   }
 
   const { email, password } = validateFields.data;
 
-  const existingUser = await getUserByEmail(email);
+  try {
+    await signIn('credentials', {
+      email,
+      password,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return {
+            status: 400,
+            message: 'Invalid login credentials',
+          };
 
-  if (!existingUser) {
-    return {
-      status: 400,
-      message: "Invalid login credentials",
-    };
+        default:
+          return {
+            status: 500,
+            message: 'Something went wrong!',
+          };
+      }
+    }
+
+    throw error;
   }
-
-  return {
-    status: 200,
-    message: "Sign in success",
-  };
 };
