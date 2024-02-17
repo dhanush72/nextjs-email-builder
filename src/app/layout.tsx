@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site.config";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         {children}
+        <Toaster />
       </body>
     </html>
   );
