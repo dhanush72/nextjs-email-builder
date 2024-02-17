@@ -10,18 +10,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/server/actions/sign-in";
-import { SignInFormSchema } from "@/types";
+import { signUp } from "@/server/actions/sign-up";
+import { SignUpFormSchema } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
-const SignInForm = () => {
-  const form = useForm<z.infer<typeof SignInFormSchema>>({
+const SignUpForm = () => {
+  const form = useForm<z.infer<typeof SignUpFormSchema>>({
     mode: "onBlur",
-    resolver: zodResolver(SignInFormSchema),
+    resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -30,8 +30,8 @@ const SignInForm = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = (values: z.infer<typeof SignInFormSchema>) => {
-    signIn(values)
+  const onSubmit = (values: z.infer<typeof SignUpFormSchema>) => {
+    signUp(values)
       .then((data) => {
         if (data.status === 200) {
           toast.success(data.message);
@@ -78,14 +78,6 @@ const SignInForm = () => {
                   placeholder="••••••••"
                 />
               </FormControl>
-              <div className="flex justify-end">
-                <Link
-                  href="/forgot-password"
-                  className="text-xs text-right text-muted-foreground"
-                >
-                  Forgot Password?
-                </Link>
-              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -110,14 +102,14 @@ const SignInForm = () => {
               />
             </svg>
           )}{" "}
-          Sign In
+          Sign Up
         </Button>
         <div className="flex items-center justify-center text-sm gap-1">
           <span className="text-xs text-muted-foreground">
-            Don&apos;t have an account?
+            Already have an account?
           </span>
-          <Link href="/sign-up" className="text-foreground">
-            Sign Up
+          <Link href="/sign-in" className="text-foreground">
+            Sign In
           </Link>
         </div>
       </form>
@@ -125,4 +117,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;
