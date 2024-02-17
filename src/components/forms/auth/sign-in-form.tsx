@@ -14,11 +14,13 @@ import { signIn } from "@/server/actions/sign-in";
 import { SignInFormSchema } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 
 const SignInForm = () => {
+  const [pending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof SignInFormSchema>>({
     mode: "onBlur",
     resolver: zodResolver(SignInFormSchema),
@@ -28,18 +30,18 @@ const SignInForm = () => {
     },
   });
 
-  const isLoading = form.formState.isSubmitting;
-
   const onSubmit = (values: z.infer<typeof SignInFormSchema>) => {
-    signIn(values)
-      .then((data) => {
-        if (data.status === 200) {
-          toast.success(data.message);
-        } else {
-          toast.error(data.message);
-        }
-      })
-      .catch((error) => console.log(error));
+    startTransition(() => {
+      signIn(values)
+        .then((data) => {
+          if (data.status === 200) {
+            toast.success(data.message);
+          } else {
+            toast.error(data.message);
+          }
+        })
+        .catch((error) => console.log(error));
+    });
   };
 
   return (
@@ -54,7 +56,7 @@ const SignInForm = () => {
               <FormControl>
                 <Input
                   {...field}
-                  disabled={isLoading}
+                  disabled={pending}
                   type="email"
                   placeholder="you@example.com"
                 />
@@ -73,7 +75,7 @@ const SignInForm = () => {
               <FormControl className="relative">
                 <Input
                   {...field}
-                  disabled={isLoading}
+                  disabled={pending}
                   type="password"
                   placeholder="••••••••"
                 />
@@ -91,8 +93,8 @@ const SignInForm = () => {
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading && (
+        <Button type="submit" className="w-full" disabled={pending}>
+          {pending && (
             <svg
               aria-hidden="true"
               className="w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-black mr-2"
