@@ -24,6 +24,7 @@ model User {
   password      String?
   role          UserRole  @default(ADMIN)
   accounts      Account[]
+  folders       Folder[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -45,4 +46,33 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+}
+
+model Folder {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  userId      String   @db.ObjectId
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emails      Email[]
+
+  @@index([userId])
+}
+
+model Email {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  pathName     String   @default("")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  visits       Int      @default(0)
+  content      String?  @db.String
+  order        Int
+  previewImage String?  @db.String
+  folderId     String   @db.ObjectId
+  Folder       Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade)
+
+  @@index([folderId])
 }
