@@ -34,10 +34,8 @@ const SignInForm = () => {
     startTransition(() => {
       login(values)
         .then((data) => {
-          if (data.status === 200) {
-            toast.success(data.message);
-          } else {
-            toast.error(data.message);
+          if (data?.status === 400) {
+            toast.error(data?.message);
           }
         })
         .catch((error) => console.log(error));
@@ -52,7 +50,9 @@ const SignInForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-800">Email</FormLabel>
+              <FormLabel className="text-gray-800 dark:text-white">
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -71,7 +71,9 @@ const SignInForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-800">Password</FormLabel>
+              <FormLabel className="text-gray-800 dark:text-white">
+                Password
+              </FormLabel>
               <FormControl className="relative">
                 <Input
                   {...field}

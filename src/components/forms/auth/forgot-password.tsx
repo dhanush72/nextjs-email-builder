@@ -10,39 +10,24 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { signUp } from '@/server/actions/sign-up';
-import { SignUpFormSchema } from '@/types';
+import { ForgotPasswordFormSchema } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import z from 'zod';
+import { z } from 'zod';
 
-const SignUpForm = () => {
-  const [pending, startTransaction] = useTransition();
-  const form = useForm<z.infer<typeof SignUpFormSchema>>({
-    mode: 'onBlur',
-    resolver: zodResolver(SignUpFormSchema),
+const ForgotPasswordForm = () => {
+  const [pending, startTransition] = useTransition();
+
+  const form = useForm<z.infer<typeof ForgotPasswordFormSchema>>({
+    resolver: zodResolver(ForgotPasswordFormSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
-  const onSubmit = (values: z.infer<typeof SignUpFormSchema>) => {
-    startTransaction(() => {
-      signUp(values)
-        .then((data) => {
-          if (data.status === 200) {
-            toast.success(data.message);
-          } else {
-            toast.error(data.message);
-          }
-        })
-        .catch((error) => console.log(error));
-    });
-  };
+  const onSubmit = (values: z.infer<typeof ForgotPasswordFormSchema>) => {};
 
   return (
     <Form {...form}>
@@ -61,27 +46,6 @@ const SignUpForm = () => {
                   disabled={pending}
                   type="email"
                   placeholder="you@example.com"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-800 dark:text-white">
-                Password
-              </FormLabel>
-              <FormControl className="relative">
-                <Input
-                  {...field}
-                  disabled={pending}
-                  type="password"
-                  placeholder="••••••••"
                 />
               </FormControl>
               <FormMessage />
@@ -108,7 +72,7 @@ const SignUpForm = () => {
               />
             </svg>
           )}{' '}
-          Sign Up
+          Send Reset Email
         </Button>
         <div className="flex items-center justify-center gap-1 text-sm">
           <span className="text-xs text-muted-foreground">
@@ -123,4 +87,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default ForgotPasswordForm;

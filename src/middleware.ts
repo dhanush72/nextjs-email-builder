@@ -1,6 +1,7 @@
 import authConfig from '@/app/api/auth/auth.config';
 import NextAuth from 'next-auth';
 import {
+  BASE_URL,
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
@@ -27,6 +28,12 @@ export default auth((req) => {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;
+  }
+
+  if (isLoggedIn) {
+    if (nextUrl.pathname === BASE_URL) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
   }
 
   if (!isLoggedIn && !isPublicRoute) {
