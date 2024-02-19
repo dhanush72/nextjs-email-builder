@@ -1,6 +1,7 @@
 import { Toaster } from '@/components/ui/sonner';
 import { siteConfig } from '@/config/site.config';
 import { cn } from '@/lib/utils';
+import { ModalProvider } from '@/providers/modal-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
@@ -33,7 +34,9 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SessionProvider session={session}>{children}</SessionProvider>
+          <SessionProvider session={session}>
+            <ModalProvider>{children}</ModalProvider>
+          </SessionProvider>
         </ThemeProvider>
         <Toaster />
       </body>
