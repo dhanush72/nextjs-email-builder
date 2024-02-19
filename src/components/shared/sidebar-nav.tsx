@@ -24,7 +24,7 @@ const SidebarNav = ({ items }: SidebarNavProps) => {
                 className={cn(
                   'group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
                   {
-                    'bg-accent': item.href === path,
+                    'bg-accent': path.includes(item.href),
                     'transparent cursor-not-allowed opacity-80': item.disabled,
                   },
                 )}
