@@ -5,7 +5,9 @@ import SidebarNav from './sidebar-nav';
 const Sidebar = () => {
   return (
     <nav
-      className={cn('relative hidden h-screen w-72 border-r pt-16 lg:block')}
+      className={cn(
+        'relative hidden h-screen w-72 min-w-64 border-r pt-16 lg:block',
+      )}
     >
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
