@@ -1,8 +1,13 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { metaObject } from '@/config/site.config';
 import { currentUser } from '@/lib/auth';
 import { getEmailsByFolderId } from '@/lib/queries';
 import CreateEmailButton from '../_components/create-email-button';
 import EmailCard from '../_components/email-card';
+
+export const metadata = {
+  ...metaObject('Emails'),
+};
 
 interface FolderPageIdProps {
   params: { folderId: string };
