@@ -5,9 +5,14 @@ import { ModalProvider } from '@/providers/modal-provider';
 import { ThemeProvider } from '@/providers/theme-provider';
 import type { Metadata } from 'next';
 import { SessionProvider } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { Inter } from 'next/font/google';
 import { auth } from './api/auth/auth';
 import './globals.css';
+
+const NextProgress = dynamic(() => import('@/components/next-progress'), {
+  ssr: false,
+});
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -35,10 +40,13 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider session={session}>
-            <ModalProvider>{children}</ModalProvider>
+            <ModalProvider>
+              <NextProgress />
+              {children}
+              <Toaster richColors />
+            </ModalProvider>
           </SessionProvider>
         </ThemeProvider>
-        <Toaster />
       </body>
     </html>
   );
