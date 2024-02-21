@@ -19,8 +19,8 @@ const CreateEmailButton = ({ label, folderId }: CreateEmailButtonProps) => {
       className="flex items-center gap-x-2"
       onClick={() => {
         setOpen(
-          <CustomModal title="Name your email">
-            <CreateEmailForm folderId={folderId} />
+          <CustomModal title="Name your email template">
+            <CreateEmailForm folderId={folderId} type="create" />
           </CustomModal>,
         );
       }}
