@@ -19,8 +19,8 @@ const Logo = ({ className }: LogoProps) => {
       <Image
         src={siteConfig.logo}
         alt={siteConfig.title}
-        width={40}
-        height={40}
+        width={36}
+        height={36}
       />
       EmailCraft
     </Link>
