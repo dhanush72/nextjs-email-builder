@@ -1,3 +1,4 @@
+import Icon from '@public/favicon.ico';
 import Logo from '@public/images/logo.svg';
 import { Metadata } from 'next';
 
@@ -11,7 +12,7 @@ export const siteConfig = {
   description:
     'Next.js Email Builder simplifies the process of creating and customizing email templates within Next.js applications, empowering developers and designers to deliver engaging and visually appealing email communications efficiently.',
   logo: Logo,
-  icon: '',
+  icon: Icon,
   mode: MODE.LIGHT,
 };
 
