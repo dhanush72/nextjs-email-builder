@@ -24,7 +24,7 @@ import { deleteEmail } from '@/lib/queries';
 import { useModal } from '@/providers/modal-provider';
 import { Email } from '@prisma/client';
 import { MoreVertical } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
 interface EmailCardProps {
@@ -55,7 +55,7 @@ const EmailCard = ({ email, folderId }: EmailCardProps) => {
   };
 
   const handleOpenEmailEditor = (emailId: string) => {
-    router.push(`/dashboard/emails/${folderId}`);
+    redirect(`/dashboard/folder/${folderId}/editor/${emailId}`);
   };
   return (
     <div className="flex cursor-pointer flex-col space-y-2">
