@@ -54,6 +54,9 @@ export const getFolders = async (userId: string) => {
       include: {
         emails: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
     return response;
   } catch (error) {
@@ -162,6 +165,9 @@ export const getEmailsByFolderId = async (folderId: string) => {
     const response = await db.email.findMany({
       where: {
         folderId,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
     return response;
